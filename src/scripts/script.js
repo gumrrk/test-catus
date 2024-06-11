@@ -2,6 +2,7 @@ const products = [
   {
     id: 1,
     img: "/src/assets/products/product-1.svg",
+    imgflipped: "/src/assets/products/product-1-flipped.svg",
     name: "Cadeira Vermelha Conforto",
     totalPrice: 750,
     price: 299.99,
@@ -12,6 +13,7 @@ const products = [
   {
     id: 2,
     img: "/src/assets/products/product-2.svg",
+    imgflipped: "/src/assets/products/product-2-flipped.svg",
     name: "Relógio de Parede Decorativo",
     totalPrice: 420,
     price: 199.99,
@@ -22,6 +24,7 @@ const products = [
   {
     id: 3,
     img: "/src/assets/products/product-3.svg",
+    imgflipped: "/src/assets/products/product-3-flipped.svg",
     name: "Escova Rústica de Madeira",
     totalPrice: 320,
     price: 149.99,
@@ -31,6 +34,7 @@ const products = [
   {
     id: 4,
     img: "/src/assets/products/product-4.svg",
+    imgflipped: "/src/assets/products/product-4-flipped.svg",
     name: "Cadeira Conforto Ergonômica",
     totalPrice: 850,
     price: 399.99,
@@ -53,33 +57,31 @@ function createProductElement(product) {
   const discountHTML = product.discount
     ? `<div class="discount-badge"><p class="discont-value">${product.discount}%</p>Off</div>`
     : "";
-  const installmentsHTML = `<p><b>${product.installments}x</b> de <b>R$ ${calculateInstallments(
+  const installmentsHTML = `<p><b>${
+    product.installments
+  }x</b> de <b>R$ ${calculateInstallments(
     product.price,
     product.installments,
     product.interest
   )}</b> ${product.interest ? "com juros" : "sem juros"}</p>`;
 
   li.innerHTML = `
-          <div class="product-li">
-              <div class="box_product">
-                  <img class="image_product" src="${product.img}" alt="${
-    product.name
-  }" onclick="openProductModal('${product.img}')">
-                  ${discountHTML}
-              </div>
-              <div class="product-details">
-                  <h3>${product.name}</h3>
-                  <div class="product-value">
-                  <span><s>de R$ ${product.totalPrice.toFixed(2)}</s></span>
-                  <h2>R$ ${product.price.toFixed(2)}</h2>
-                  ${installmentsHTML}
-                  </div>
-              </div>
-              <button class="add-to-cart-button" data-id="${
-                    product.id
-                  }">Adicionar ao Carrinho</button>
-          </div>
-      `;
+    <div class="product-li">
+      <div class="box_product">
+        <img class="image_product" src="${product.img}" data-flipped-src="${product.imgflipped}" alt="${product.name}" onclick="openProductModal('${product.img}')">
+        ${discountHTML}
+      </div>
+      <div class="product-details">
+        <h3>${product.name}</h3>
+        <div class="product-value">
+          <span><s>de R$ ${product.totalPrice.toFixed(2)}</s></span>
+          <h2>R$ ${product.price.toFixed(2)}</h2>
+          ${installmentsHTML}
+        </div>
+      </div>
+      <button class="add-to-cart-button" data-id="${product.id}">Adicionar ao Carrinho</button>
+    </div>
+  `;
 
   return li;
 }
@@ -123,38 +125,72 @@ function renderFilteredProductList(filteredProducts) {
 document.addEventListener("DOMContentLoaded", () => {
   renderProductList();
 
+  const productItems = document.querySelectorAll(".product-li .box_product img");
+
+  productItems.forEach(item => {
+    const originalSrc = item.src;
+    const flippedSrc = item.getAttribute("data-flipped-src");
+
+    item.addEventListener("mouseenter", () => {
+      item.style.transition = "opacity 0.3s ease-in-out";
+      item.style.opacity = "0.3";
+      setTimeout(() => {
+        item.src = flippedSrc;
+        item.style.opacity = "1";
+      }, 300);
+    });
+
+    item.addEventListener("mouseleave", () => {
+      item.style.transition = "opacity 0.3s ease-in-out";
+      item.style.opacity = "0.3";
+      setTimeout(() => {
+        item.src = originalSrc;
+        item.style.opacity = "1";
+      }, 300);
+    });
+  });
+
   const inputSearch = document.querySelector(".input_search");
   const searchButton = document.querySelector(".search_button");
+  const productList = document.getElementById("list_products");
+  const items = productList.querySelectorAll("li");
+
+  if (items.length > 4) {
+    productList.classList.add("flex-start");
+  }
 
   inputSearch.addEventListener("keypress", (event) => {
-      if (event.key === "Enter") {
-          filterProducts(inputSearch.value);
-      }
+    if (event.key === "Enter") {
+      filterProducts(inputSearch.value);
+    }
   });
 
   searchButton.addEventListener("click", () => {
-      filterProducts(inputSearch.value);
+    filterProducts(inputSearch.value);
   });
 
   function updatePlaceholder() {
-      if (window.innerWidth <= 768) {
-          inputSearch.placeholder = "Pesquisar";
-      } else {
-          inputSearch.placeholder = "Digite aqui sua busca";
-      }
+    if (window.innerWidth <= 768) {
+      inputSearch.placeholder = "Pesquisar";
+    } else {
+      inputSearch.placeholder = "Digite aqui sua busca";
+    }
   }
 
   updatePlaceholder();
 
-  window.addEventListener('resize', updatePlaceholder);
+  window.addEventListener("resize", updatePlaceholder);
 });
+
+
 
 function renderCartItems() {
   const cartItemsList = document.getElementById("cartItems");
   const checkoutButton = document.getElementById("checkoutButton");
   if (cartItems.length === 0) {
-    cartItemsList.innerHTML = "<p class=empty-cart-message>O seu carrinho está vazio :/</p>";
-    checkoutButton.disabled = true; 
+    cartItemsList.innerHTML =
+      "<p class=empty-cart-message>O seu carrinho está vazio :/</p>";
+    checkoutButton.disabled = true;
     const totalValueDisplay = document.getElementById("cartTotalValue");
     totalValueDisplay.textContent = "Total: R$ 0.00";
     return;
@@ -170,9 +206,17 @@ function renderCartItems() {
         <p>R$ ${totalPrice}</p>
         <div class="quantity-remove-div">
         <select class="quantity-select" data-id="${item.id}">
-          ${Array.from({ length: 10 }, (_, i) => `<option value="${i}" ${i === item.quantity ? 'selected' : ''}>${i}</option>`).join('')}
+          ${Array.from(
+            { length: 10 },
+            (_, i) =>
+              `<option value="${i}" ${
+                i === item.quantity ? "selected" : ""
+              }>${i}</option>`
+          ).join("")}
         </select>
-        <button class="remove-from-cart-button" data-id="${item.id}">Remover</button>
+        <button class="remove-from-cart-button" data-id="${
+          item.id
+        }">Remover</button>
         </div>
       </div>`;
     cartItemsList.appendChild(li);
@@ -183,7 +227,9 @@ function renderCartItems() {
     select.addEventListener("change", updateCartQuantity);
   });
 
-  const removeFromCartButtons = document.querySelectorAll(".remove-from-cart-button");
+  const removeFromCartButtons = document.querySelectorAll(
+    ".remove-from-cart-button"
+  );
   removeFromCartButtons.forEach((button) => {
     button.addEventListener("click", removeFromCart);
   });
@@ -209,7 +255,6 @@ function updateCartQuantity() {
   updateCartTotal();
   renderCartItems();
 }
-
 
 function updateCartCounter() {
   const cartCounter = document.querySelector(".cart-counter");
@@ -304,30 +349,30 @@ function moveRight() {
 }
 
 function toggleMenu() {
-  const menuContainer = document.querySelector('.menu_container');
-  menuContainer.classList.toggle('active');
+  const menuContainer = document.querySelector(".menu_container");
+  menuContainer.classList.toggle("active");
 }
 
 function toggleContentMobile(contentId) {
   var content = document.getElementById(contentId);
-  var allContent = document.querySelectorAll('.content');
+  var allContent = document.querySelectorAll(".content");
   for (var i = 0; i < allContent.length; i++) {
     if (allContent[i] !== content) {
-      allContent[i].style.display = 'none'; // Esconde todos os outros conteúdos
+      allContent[i].style.display = "none";
     }
   }
-  content.style.display = content.style.display === 'none' ? 'block' : 'none'; // Alterna a exibição do conteúdo clicado
+  content.style.display = content.style.display === "none" ? "block" : "none";
 }
 
 function reloadPage() {
   location.reload();
 }
 
-window.onload = function() {
+window.onload = function () {
   if (window.innerWidth <= 768) {
-    var titles = document.querySelectorAll('.h2-div_footer');
+    var titles = document.querySelectorAll(".h2-div_footer");
     for (var i = 0; i < titles.length; i++) {
-      titles[i].addEventListener('click', function() {
+      titles[i].addEventListener("click", function () {
         var contentId = this.nextElementSibling.id;
         toggleContentMobile(contentId);
       });
