@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/styles/globalStyles.css" />
+    <link rel="stylesheet" href="./src/styles/index.css" />
+    <link
+      rel="shortcut icon"
+      href="src/assets/icons/icon.png"
+      type="image/x-icon"
+    />
+    <title>Catus</title>
+  </head>
+  <body>
+    <header>
+      <div class="container_header">
+        <div class="logo_container" onclick="reloadPage()">
+          <img src="src/assets/icons/logo.svg" alt="Catus" />
+        </div>
+        <nav class="menu_container">
+          <a href="#title-products" onclick="toggleMenu()">Loja</a>
+          <a onclick="toggleMenu()">Login</a>
+          <a onclick="toggleMenu()">Sobre</a>
+          <a href="#call-center" onclick="toggleMenu()">Contato</a>
+        </nav>
+        <div class="search_container">
+          <div class="bar_search">
+            <input
+              class="input_search"
+              type="text"
+              placeholder="Digite aqui sua busca"
+            />
+            <button class="search_button">
+              <img src="src/assets/icons/search.svg" alt="Pesquisar" />
+            </button>
+          </div>
+          <button class="cart_button" onclick="showCartModal()">
+            <img src="src/assets/icons/cart.svg" alt="Carrinho" />
+            <span class="cart-counter"></span>
+          </button>
+          <button class="menu-toggle" onclick="toggleMenu()">
+            <img src="src/assets/icons/menu.svg" alt="Menu" />
+          </button>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="container_main">
+        <section class="mosaic_main">
+          <div class="div_mosaic-1">
+            <img src="src/assets/mosaic/banner 01.svg" alt="Berço" />
+            <img src="src/assets/mosaic/banner 02.svg" alt="Mãe com filho" />
+          </div>
+          <div class="div_mosaic-2">
+            <img src="src/assets/mosaic/banner 03.svg" alt="Mãe com filho" />
+          </div>
+          <div class="div_mosaic-3">
+            <img
+              src="src/assets/mosaic/banner 04.svg"
+              alt="Mãe segurando roupa de bebê"
+            />
+            <img src="src/assets/mosaic/banner 05.svg" alt="Família Feliz" />
+          </div>
+        </section>
+        <section class="products_main">
+          <h1 class="title_products" id="title-products">Oportunidades para economizar</h1>
+          <div class="div_products">
+            <button class="button" onclick="moveLeft()">
+              <img
+                src="src/assets/icons/left.svg"
+                alt="Passar para a esquerda"
+              />
+            </button>
+            <div class="product-list-wrapper">
+              <ul class="list_products" id="list_products"></ul>
+            </div>
+            <button class="button" onclick="moveRight()">
+              <img
+                src="src/assets/icons/right.svg"
+                alt="Passar para a direita"
+              />
+            </button>
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer>
+      <div class="container_footer">
+        <div class="div_footer">
+          <div class="h2-div_footer">
+            <h2>Central de Atendimento</h2>
+          </div>
+          <div class="content" id="content1">
+            <div class="call-center_footer" id="call-center">
+              <nav class="nav_footer">
+                <a>Ajuda e Suporte</a>
+                <a>Fale Conosco</a>
+                <a>Faq</a>
+              </nav>
+              <p class="whatsapp_footer">Whatsapp: (11) 99999-9999</p>
+              <div class="hours_footer">
+                <p>Nossos Horários</p>
+                <span>Segunda a sexta das 9h às 18h</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="div_footer">
+          <div class="h2-div_footer">
+            <h2>Selos de Segurança</h2>
+          </div>
+          <div class="content" id="content2">
+            <div class="stamps_footer">
+              <img src="src/assets/icons/selo.svg" alt="Google Safe Browsing" />
+              <img
+                src="src/assets/icons/selo_lojaprotegida.svg"
+                alt="Loja Protegida"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="div_footer">
+          <div class="h2-div_footer">
+            <h2>Formas de Pagamento</h2>
+          </div>
+          <div class="content" id="content3">
+            <ul class="ul-cards_footer">
+              <li><img src="src/assets/cards/visa.svg" alt="Visa" /></li>
+              <li>
+                <img src="src/assets/cards/mastercard.svg" alt="Mastercard" />
+              </li>
+              <li><img src="src/assets/cards/amex.svg" alt="Amex" /></li>
+              <li><img src="src/assets/cards/diners.svg" alt="Diners" /></li>
+              <li>
+                <img src="src/assets/cards/Group 26.svg" alt="Discover" />
+              </li>
+              <li><img src="src/assets/cards/boleto.svg" alt="Pix" /></li>
+              <li><img src="src/assets/cards/pix.svg" alt="Pix" /></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <div id="cartModal" class="modal">
+      <div class="modal-content">
+        <div class="header-modal">
+          <h2>Carrinho</h2>
+          <span class="close" onclick="closeCartModal()">&times;</span>
+        </div>
+        <ul id="cartItems"></ul>
+        <div class="footer-modal">
+          <p id="cartTotalValue">Total: R$ 0.00</p>
+          <button id="checkoutButton" class="checkout-button" onclick="reloadPage()">Finalizar Compra</button>
+        </div>
+      </div>
+    </div>
+    <script src="src/scripts/script.js"></script>
+  </body>
+</html>

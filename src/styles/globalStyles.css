@@ -1,0 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700");
+
+:root {
+  --color-grey: #eeeeee;
+  --color-grey-2: #484848;
+  --color-grey-3: #404040;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-brand: #a4bebf;
+  --color-brand-2: #32BCAD;
+  --color-brand-hover: #a4bfaf;
+  --color-red: #ff7777;
+
+  --family-1: "Inter", sans-serif;
+  --family-2: "Poppins", sans-serif;
+
+  --size-1: 0.75rem;
+  --size-2: 0.875rem;
+  --size-3: 1rem;
+  --size-4: 1.25rem;
+  --size-5: 1.5rem;
+  --size-6: 1.75rem;
+
+  --weight-0: 300;
+  --weight-1: 400;
+  --weight-2: 500;
+  --weight-3: 600;
+  --weight-4: 700;
+
+  --radius-1: 0.25rem;
+  --radius-2: 0.5rem;
+
+  --container-desktop: 60vw;
+  --container-mobile: 90%;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --size-1: clamp(0.5rem, 0.5rem + 1vw, 0.75rem);
+    --size-2: clamp(0.625rem, 0.5rem + 1vw, 0.875rem);
+    --size-3: clamp(0.75rem, 0.5rem + 1vw, 1rem);
+    --size-4: clamp(1rem, 0.5rem + 1vw, 1.25rem);
+    --size-5: clamp(1.25rem, 0.5rem + 1vw, 1.5rem);
+    --size-6: clamp(1.5rem, 0.5rem + 1vw, 1.75rem);
+  }
+}
