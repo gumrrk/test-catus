@@ -7,9 +7,11 @@
   --color-white: #ffffff;
   --color-black: #000000;
   --color-brand: #a4bebf;
+  --color-brand-hover: #70d6d6;
   --color-brand-2: #32bcad;
-  --color-brand-hover: #a4bfaf;
   --color-red: #ff7777;
+  --color-red-hover: #ff5555;
+  --color-green: #28a745;
 
   --family-1: "Inter", sans-serif;
   --family-2: "Poppins", sans-serif;

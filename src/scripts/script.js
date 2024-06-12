@@ -68,7 +68,9 @@ function createProductElement(product) {
   li.innerHTML = `
     <div class="product-li">
       <div class="box_product">
-        <img class="image_product" src="${product.img}" data-flipped-src="${product.imgflipped}" alt="${product.name}" onclick="openProductModal('${product.img}')">
+        <img class="image_product" src="${product.img}" data-flipped-src="${
+    product.imgflipped
+  }" alt="${product.name}" onclick="openProductModal('${product.img}')">
         ${discountHTML}
       </div>
       <div class="product-details">
@@ -79,13 +81,14 @@ function createProductElement(product) {
           ${installmentsHTML}
         </div>
       </div>
-      <button class="add-to-cart-button" data-id="${product.id}">Adicionar ao Carrinho</button>
+      <button class="add-to-cart-button" data-id="${
+        product.id
+      }">Adicionar ao Carrinho</button>
     </div>
   `;
 
   return li;
 }
-
 
 function renderProductList() {
   const productList = document.getElementById("list_products");
@@ -125,9 +128,11 @@ function renderFilteredProductList(filteredProducts) {
 document.addEventListener("DOMContentLoaded", () => {
   renderProductList();
 
-  const productItems = document.querySelectorAll(".product-li .box_product img");
+  const productItems = document.querySelectorAll(
+    ".product-li .box_product img"
+  );
 
-  productItems.forEach(item => {
+  productItems.forEach((item) => {
     const originalSrc = item.src;
     const flippedSrc = item.getAttribute("data-flipped-src");
 
@@ -181,8 +186,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener("resize", updatePlaceholder);
 });
-
-
 
 function renderCartItems() {
   const cartItemsList = document.getElementById("cartItems");
@@ -275,7 +278,6 @@ function updateCartTotal() {
   const totalDisplay = document.getElementById("cartTotal");
   if (totalDisplay) {
     totalDisplay.textContent = `Total: R$ ${totalValue.toFixed(2)}`;
-    console.log("Cart total updated", totalValue);
   }
 }
 
@@ -297,6 +299,26 @@ function updateCartTotalValue() {
   }
 }
 
+function showNotification(message) {
+  const notification = document.createElement("div");
+  notification.className = "notification";
+  notification.textContent = message;
+  document.body.appendChild(notification);
+
+  setTimeout(() => {
+    notification.classList.add("show");
+    console.log("mostrou");
+  }, 100);
+
+  setTimeout(() => {
+    notification.classList.remove("show");
+    setTimeout(() => {
+      document.body.removeChild(notification);
+      console.log("sumiu");
+    }, 500);
+  }, 3000);
+}
+
 function addToCart() {
   const productId = this.getAttribute("data-id");
   const product = products.find((item) => item.id === parseInt(productId));
@@ -310,6 +332,7 @@ function addToCart() {
 
   updateCartCounter();
   updateCartTotal();
+  showNotification("Item adicionado ao carrinho!");
 }
 
 function closeCartModal() {
@@ -331,7 +354,6 @@ function removeFromCart() {
   updateCartCounter();
   updateCartTotal();
   renderCartItems();
-  console.log("Product removed from cart", productId);
 }
 
 function moveLeft() {

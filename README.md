@@ -1,4 +1,4 @@
-**Teste Técnico Front-End para a Agência Catus**
+# Teste Técnico Front-End para a Agência Catus
 
 Este teste foi desenvolvido como parte do processo seletivo para a vaga de Desenvolvedor Front-End na Agência Catus. O objetivo era demonstrar habilidades em HTML5, CSS3 e JavaScript, bem como a capacidade de estruturar e dar semântica ao código, adaptar layouts para dispositivos móveis, e evitar a dependência de bibliotecas CSS.
 
