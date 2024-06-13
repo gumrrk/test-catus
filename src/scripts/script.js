@@ -44,7 +44,7 @@ const products = [
   },
 ];
 
-const cartItems = [];
+let cartItems = [];
 
 function calculateInstallments(price, installments, interest = 0) {
   const valueWithInterest = price * (1 + interest / 100);
@@ -127,6 +127,8 @@ function renderFilteredProductList(filteredProducts) {
 
 document.addEventListener("DOMContentLoaded", () => {
   renderProductList();
+  loadCartFromLocalStorage();
+  updateCartCounter();
 
   const productItems = document.querySelectorAll(
     ".product-li .box_product img"
@@ -208,18 +210,18 @@ function renderCartItems() {
       <div class="price-quantity-div">
         <p>R$ ${totalPrice}</p>
         <div class="quantity-remove-div">
-        <select class="quantity-select" data-id="${item.id}">
-          ${Array.from(
-            { length: 10 },
-            (_, i) =>
-              `<option value="${i}" ${
-                i === item.quantity ? "selected" : ""
-              }>${i}</option>`
-          ).join("")}
-        </select>
-        <button class="remove-from-cart-button" data-id="${
-          item.id
-        }">Remover</button>
+          <select class="quantity-select" data-id="${item.id}">
+            ${Array.from(
+              { length: Math.max(item.quantity + 1, 10) },
+              (_, i) =>
+                `<option value="${i}" ${
+                  i === item.quantity ? "selected" : ""
+                }>${i}</option>`
+            ).join("")}
+          </select>
+          <button class="remove-from-cart-button" data-id="${
+            item.id
+          }">Remover</button>
         </div>
       </div>`;
     cartItemsList.appendChild(li);
@@ -241,6 +243,17 @@ function renderCartItems() {
   checkoutButton.disabled = false;
 }
 
+function saveCartToLocalStorage() {
+  localStorage.setItem("cartItems", JSON.stringify(cartItems));
+}
+
+function loadCartFromLocalStorage() {
+  const storedCartItems = localStorage.getItem("cartItems");
+  if (storedCartItems) {
+    cartItems = JSON.parse(storedCartItems);
+  }
+}
+
 function updateCartQuantity() {
   const productId = parseInt(this.getAttribute("data-id"));
   const newQuantity = parseInt(this.value);
@@ -256,6 +269,7 @@ function updateCartQuantity() {
 
   updateCartCounter();
   updateCartTotal();
+  saveCartToLocalStorage();
   renderCartItems();
 }
 
@@ -332,9 +346,9 @@ function addToCart() {
 
   updateCartCounter();
   updateCartTotal();
+  saveCartToLocalStorage();
   showNotification("Item adicionado ao carrinho!");
 }
-
 function closeCartModal() {
   const modal = document.getElementById("cartModal");
   modal.style.display = "none";
@@ -353,6 +367,7 @@ function removeFromCart() {
 
   updateCartCounter();
   updateCartTotal();
+  saveCartToLocalStorage();
   renderCartItems();
 }
 
