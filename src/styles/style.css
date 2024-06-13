@@ -57,6 +57,7 @@ header {
   flex-direction: row;
   justify-content: space-between;
   width: 15vw;
+  gap: 1.5rem;
 }
 
 .bar_search {
