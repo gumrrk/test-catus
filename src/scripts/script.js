@@ -401,9 +401,12 @@ function toggleContentMobile(contentId) {
   content.style.display = content.style.display === "none" ? "block" : "none";
 }
 
-function reloadPage() {
+document.getElementById("checkoutButton").addEventListener("click", function() {
+  cartItems = [];
+  saveCartToLocalStorage();
   location.reload();
-}
+});
+
 
 window.onload = function () {
   if (window.innerWidth <= 768) {
