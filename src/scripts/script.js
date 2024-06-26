@@ -70,7 +70,7 @@ function createProductElement(product) {
       <div class="box_product">
         <img class="image_product" src="${product.img}" data-flipped-src="${
     product.imgflipped
-  }" alt="${product.name}" onclick="openProductModal('${product.img}')">
+  }" alt="${product.name}")">
         ${discountHTML}
       </div>
       <div class="product-details">
